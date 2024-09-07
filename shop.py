@@ -1,6 +1,7 @@
+import pygame
+
 import colors
 import translator
-import pygame
 
 pygame.mixer.init()
 

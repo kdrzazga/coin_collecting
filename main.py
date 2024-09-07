@@ -1,44 +1,51 @@
 import random
+
 import pygame
+
 import colors
 import translator
-from coin import Coin
+from collectable import Collectable
 from functions import *
 from shop import Shop
+from event import Event, Gift
+
+christmas = Event('christmas', (12), (21, 22, 23, 24, 25, 26, 27))
+if christmas.active():
+    gift1 = Gift()
 
 display_menu(['Polski', 'English', 'Русский', 'Español'])
+choices_dict = {1: 'PL',
+                2: 'EN',
+                3: 'RU',
+                4: 'ES'}
 while True:
-    choice = int(input('Choose the number of your language: '))
-    if choice == 1:
-        lan = 'PL'
-        break
-    elif choice == 2:
-        lan = 'EN'
-        break
-    elif choice == 3:
-        lan = 'RU'
-        break
-    elif choice == 4:
-        lan = 'ES'
-        break
-    else:
-        print('Invalid number')
+    try:
+        choice = int(input('Choose the number of your language: '))
+        if choice in choices_dict:
+            lan = choices_dict[choice]
+            break
+        else:
+            print('\nInvalid language\n')
+    except ValueError:
+        print("Please type in a number.")
 
-#inicjalizacje
+# inicjalizacje
 pygame.init()
 pygame.mixer.init()
 
-screen = pygame.display.set_mode(flags= pygame.FULLSCREEN)
+screen = pygame.display.set_mode(flags=pygame.FULLSCREEN)
 screen_size = screen.get_size()
 screen_center = (screen_size[0] / 2, screen_size[1] / 2)
 
-coin1 = Coin(screen)
+coin1 = Collectable(screen)
 
 shop = Shop(lan)
-shop.add_item(Shop.Item(translator.yellow_skin[lan], 10, translator.yellow_skin_description[lan], 'resources/images/item_icons/yellow_skin.png'))
-shop.add_item(Shop.Item(translator.more_stamina[lan], 15, translator.more_stamina_description[lan], 'resources/images/item_icons/more_stamina.png'))
+shop.add_item(Shop.Item(translator.yellow_skin[lan], 10, translator.yellow_skin_description[lan],
+                        'resources/images/item_icons/yellow_skin.png'))
+shop.add_item(Shop.Item(translator.more_stamina[lan], 15, translator.more_stamina_description[lan],
+                        'resources/images/item_icons/more_stamina.png'))
 
-#początkowe statystyki
+# początkowe statystyki
 coins = 0
 stamina: float = 100
 max_stamina = 100
@@ -84,16 +91,20 @@ while playing:
                     coins = shop.buy_item(shop.items[0], coins)
                     max_stamina += 20
                     if max_stamina <= 480:
-                        shop.add_item(Shop.Item(translator.more_stamina[lan], 15, translator.more_stamina_description[lan],'resources/images/item_icons/more_stamina.png'))
+                        shop.add_item(
+                            Shop.Item(translator.more_stamina[lan], 15, translator.more_stamina_description[lan],
+                                      'resources/images/item_icons/more_stamina.png'))
             elif shop.items[1].name == translator.more_stamina[lan]:
                 if coins >= 15:
                     coins = shop.buy_item(shop.items[1], coins)
                     max_stamina += 20
                     if max_stamina <= 480:
-                        shop.add_item(Shop.Item(translator.more_stamina[lan], 15, translator.more_stamina_description[lan],'resources/images/item_icons/more_stamina.png'))
-                    #przedmiot można kupić wiele razy jeżeli twoja maksymalna energia jest mniejsza niż 500
+                        shop.add_item(
+                            Shop.Item(translator.more_stamina[lan], 15, translator.more_stamina_description[lan],
+                                      'resources/images/item_icons/more_stamina.png'))
+                    # przedmiot można kupić wiele razy jeżeli twoja maksymalna energia jest mniejsza niż 500
         elif event.type == pygame.KEYDOWN and event.key == pygame.K_b:
-            coins += 10 #do testowania
+            coins += 10  # do testowania
 
     keys = pygame.key.get_pressed()
     if (keys[pygame.K_LSHIFT] or keys[pygame.K_RSHIFT]) and stamina > 0:

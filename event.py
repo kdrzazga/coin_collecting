@@ -5,7 +5,7 @@ import random
 
 class Event:
     def __init__(self, name, months: tuple, days: tuple):
-        self.months = months
+        self.months = (months,)
         self.days = days
         self.name = name
 
@@ -13,10 +13,7 @@ class Event:
         return self.name
 
     def active(self):
-        if datetime.now().month in self.months and datetime.now().day in self.days:
-            return True
-        else:
-            return False
+        return datetime.now().month in self.months and datetime.now().day in self.days
 
 
 class Gift:
@@ -27,4 +24,4 @@ class Gift:
         self.rect = self.image.get_rect()
         self.rect.x = random.randint(0, screen.get_width() - self.rect.width)
         self.rect.y = random.randint(0, screen.get_height() - self.rect.height)
-        self.prizes = ['2 coins', '3 coins', 'Custom color', 'random item']
+        self.prizes = ['Coins', 'Custom color', 'random item']
