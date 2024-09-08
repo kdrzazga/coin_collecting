@@ -11,6 +11,7 @@ from event import Event
 from gift import Gift
 
 christmas = Event('christmas', (12,), (21, 22, 23, 24, 25, 26, 27))
+gift1 = None
 if christmas.active():
     gift1 = Gift()
 
@@ -80,6 +81,50 @@ clock = pygame.time.Clock()
 playing = True
 resting = False
 shop_checker = False
+
+
+def check_boundaries():
+    global player_x, player_y
+    if player_x < 10:
+        player_x = 10
+    if player_x > screen_size[0] - 10:
+        player_x = screen_size[0] - 10
+    if player_y < 10:
+        player_y = 10
+    if player_y > screen_size[1]:
+        player_y = screen_size[1]
+
+
+def buy_yellow_color():
+    global coins, player_color
+    if shop.items[0].name == translator.yellow_skin[lan]:
+        if coins >= 10:
+            coins = shop.buy_item(shop.items[0], coins)
+            player_color = colors.yellow
+
+
+def buy_more_stamina(max_stamina_local):
+    global coins
+    if shop.items[0].name == translator.more_stamina[lan]:
+        if coins >= 15:
+            coins = shop.buy_item(shop.items[0], coins)
+            max_stamina_local += 20
+            if max_stamina_local <= 480:
+                shop.add_item(
+                    Shop.Item(translator.more_stamina[lan], 15, translator.more_stamina_description[lan],
+                              'resources/images/item_icons/more_stamina.png'))
+    elif shop.items[1].name == translator.more_stamina[lan]:
+        if coins >= 15:
+            coins = shop.buy_item(shop.items[1], coins)
+            max_stamina_local += 20
+            if max_stamina_local <= 480:
+                shop.add_item(
+                    Shop.Item(translator.more_stamina[lan], 15, translator.more_stamina_description[lan],
+                              'resources/images/item_icons/more_stamina.png'))
+            # przedmiot można kupić wiele razy jeżeli twoja maksymalna energia jest mniejsza niż 500
+    return max_stamina_local
+
+
 while playing:
     for event in pygame.event.get():
         if event.type == pygame.QUIT or (event.type == pygame.KEYDOWN and event.key == pygame.K_q):
@@ -87,28 +132,9 @@ while playing:
         elif event.type == pygame.KEYDOWN and event.key == pygame.K_ESCAPE:
             shop_checker = not shop_checker
         elif event.type == pygame.KEYDOWN and event.key == pygame.K_f:
-            if shop.items[0].name == translator.yellow_skin[lan]:
-                if coins >= 10:
-                    coins = shop.buy_item(shop.items[0], coins)
-                    player_color = colors.yellow
+            buy_yellow_color()
         elif event.type == pygame.KEYDOWN and event.key == pygame.K_p:
-            if shop.items[0].name == translator.more_stamina[lan]:
-                if coins >= 15:
-                    coins = shop.buy_item(shop.items[0], coins)
-                    max_stamina += 20
-                    if max_stamina <= 480:
-                        shop.add_item(
-                            Shop.Item(translator.more_stamina[lan], 15, translator.more_stamina_description[lan],
-                                      'resources/images/item_icons/more_stamina.png'))
-            elif shop.items[1].name == translator.more_stamina[lan]:
-                if coins >= 15:
-                    coins = shop.buy_item(shop.items[1], coins)
-                    max_stamina += 20
-                    if max_stamina <= 480:
-                        shop.add_item(
-                            Shop.Item(translator.more_stamina[lan], 15, translator.more_stamina_description[lan],
-                                      'resources/images/item_icons/more_stamina.png'))
-                    # przedmiot można kupić wiele razy jeżeli twoja maksymalna energia jest mniejsza niż 500
+            max_stamina = buy_more_stamina(max_stamina)
         elif event.type == pygame.KEYDOWN and event.key == pygame.K_b:
             coins += 10  # do testowania
 
@@ -145,14 +171,7 @@ while playing:
         player_y += speed
         resting = False
 
-    if player_x < 10:
-        player_x = 10
-    if player_x > screen_size[0] - 10:
-        player_x = screen_size[0] - 10
-    if player_y < 10:
-        player_y = 10
-    if player_y > screen_size[1]:
-        player_y = screen_size[1]
+    check_boundaries()
 
     screen.fill(colors.black)
 
