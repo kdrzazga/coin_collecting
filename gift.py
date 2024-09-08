@@ -16,7 +16,7 @@ class Gift:
             print(f"Gift of {coins} coins.")
             self.initialize(red, coins)
         else:
-            color_number = random.randint(0, len(colors))
+            color_number = random.randint(0, len(colors) - 1)
             c = colors[color_number]
             print(f"Gift - new color {c}.")
             self.initialize(c, 0)
