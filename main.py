@@ -7,9 +7,10 @@ import translator
 from collectable import Collectable
 from functions import *
 from shop import Shop
-from event import Event, Gift
+from event import Event
+from gift import Gift
 
-christmas = Event('christmas', (12), (21, 22, 23, 24, 25, 26, 27))
+christmas = Event('christmas', (12,), (21, 22, 23, 24, 25, 26, 27))
 if christmas.active():
     gift1 = Gift()
 
@@ -47,6 +48,12 @@ shop.add_item(Shop.Item(translator.more_stamina[lan], 15, translator.more_stamin
 
 # początkowe statystyki
 coins = 0
+player_color = colors.red
+
+if gift1 is not None:
+    coins += gift1.coins
+    player_color = gift1.color
+
 stamina: float = 100
 max_stamina = 100
 stamina_regeneration = 0.1
@@ -54,7 +61,6 @@ stamina_regeneration = 0.1
 player_radius = 30
 
 player_x, player_y = screen_center
-player_color = colors.red
 
 pygame.display.set_caption(translator.game_name[lan])
 
