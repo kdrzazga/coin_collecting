@@ -5,14 +5,15 @@ import pygame
 import colors
 import translator
 from collectable import Collectable
-from functions import *
-from shop import Shop
 from event import Event
+from functions import *
 from gift import Gift
+from halloween_shop import HalloweenShop
+from shop import Shop
 
 christmas = Event('christmas', (12,), (21, 22, 23, 24, 25, 26, 27))
 gift1 = None
-if True:#christmas.active():
+if christmas.active():
     gift1 = Gift()
 
 display_menu(['Polski', 'English', 'Русский', 'Español'])
@@ -41,15 +42,17 @@ screen_center = (screen_size[0] / 2, screen_size[1] / 2)
 
 coin1 = Collectable(screen)
 
-shop = Shop(lan)
-shop.add_item(Shop.Item(translator.yellow_skin[lan], 10, translator.yellow_skin_description[lan],
-                        'resources/images/item_icons/yellow_skin.png'))
-shop.add_item(Shop.Item(translator.more_stamina[lan], 15, translator.more_stamina_description[lan],
-                        'resources/images/item_icons/more_stamina.png'))
+halloween = Event('halloween', (10,), (28, 29, 30, 31))
+
+ordinary_shop = Shop(lan)
+halloween_shop = HalloweenShop(lan)
+
+shop = halloween_shop if True else ordinary_shop
 
 # początkowe statystyki
 coins = 0
 player_color = colors.red
+pumpkins = 0
 
 if gift1 is not None:
     coins += gift1.coins

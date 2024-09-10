@@ -23,6 +23,11 @@ class Shop:
         self.items = []
         self.language = language
 
+        self.add_item(Shop.Item(translator.yellow_skin[language], 10, translator.yellow_skin_description[language],
+                                'resources/images/item_icons/yellow_skin.png'))
+        self.add_item(Shop.Item(translator.more_stamina[language], 15, translator.more_stamina_description[language],
+                                'resources/images/item_icons/more_stamina.png'))
+
     def add_item(self, item):
         self.items.append(item)
 

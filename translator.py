@@ -42,3 +42,12 @@ more_stamina_description = {'PL': 'Ten przedmiot zwiększa maksymalną ilość e
                             'EN': 'This item increases the maximum amount of stamina. Press P to buy.',
                             'RU': 'Этот предмет увеличивает максимальное количество выносливости. Нажмите P, чтобы купить.',
                             'ES': 'Este objeto incrementa la máxima cantidad de energía. Haz clic P para comprarlo.'}
+pumpkin = {'PL': 'Dynia',
+           'EN': 'Pumpkin',
+           'RU': 'Тыква',
+           'ES': 'Calbaza'}
+pumpkins = {'PL': 'Dynie',
+            'EN': 'Pumpkins',
+            'RU': 'Тыкви',
+            'ES': 'Calbazas'}
+
