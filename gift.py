@@ -5,22 +5,18 @@ from colors import *
 
 class Gift:
     def __init__(self):
-        self.coins = None
-        self.color = None
+        self.coins = 0
+        self.color = red
         colors = (green, blue, magenta, yellow, cyan)
 
-        r = random.randint(1, 2)
+        prize = random.randint(1, 2)
 
-        if r <= 1:
+        if prize <= 1:
             coins = random.randint(1, 5)
             print(f"Gift of {coins} coins.")
-            self.initialize(red, coins)
+            self.coins = coins
         else:
             color_number = random.randint(0, len(colors) - 1)
             c = colors[color_number]
             print(f"Gift - new color {c}.")
-            self.initialize(c, 0)
-
-    def initialize(self, color, coins):
-        self.color = color
-        self.coins = coins
+            self.color = c

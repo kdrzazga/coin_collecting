@@ -12,7 +12,7 @@ from gift import Gift
 
 christmas = Event('christmas', (12,), (21, 22, 23, 24, 25, 26, 27))
 gift1 = None
-if christmas.active():
+if True:#christmas.active():
     gift1 = Gift()
 
 display_menu(['Polski', 'English', 'Русский', 'Español'])
